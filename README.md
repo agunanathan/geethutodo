@@ -68,3 +68,33 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+
+ // the below code is going to bind whatever input variable with this input field and onChange event handler will store any charecters that are typed in and will set the value of the input state variable in setIput eg: if we type "read me" the value for input will be "read me" 
+    return (
+    <div>
+      <h1>Todo List</h1>
+      <input 
+      type= "text"
+      value={input}
+      onChange={(e) => setInput(e.target.value)} /> 
+
+ const deleteTodo = (id) => {
+      //filter todo with the id
+      const newList = list.filter((todo) => todo.id !== id); //list.filter will check each todo and if todo id is not equal to the id of the todo we want to remove it will add that todo to this newlist 
+      setList(newList);
+    };
+
+    // This is the functioon for adding todo's it will take in the (todo) and then create a variable called newTodo which is a jsoon object. This new todo will have an id which used to identify the todo. The id will be just a randon numbers 
+    const addTodo = (todo) => {
+      const newTodo = {
+        id: Math.random(),
+        todo: todo,};
+
+      setList([...list, newTodo]);
+      setInput("");
+    };
+
+setList([...list, newTodo]); this will add todo to the list
+setInput(""); this will use to clear the input box
