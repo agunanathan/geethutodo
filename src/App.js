@@ -44,7 +44,7 @@ const App = () => {
   return ( 
   <div className = "App">  
   <div className= "container">
-     <h1>My Todo List App</h1>
+     <h1>My Todo List </h1>
      <form className= "todoForm" onSubmit={handleSubmit}>
        <input type= "text" value={todo} onChange={(e) => setTodo(e.target.value)}/>
        
