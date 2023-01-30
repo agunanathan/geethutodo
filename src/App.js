@@ -1,44 +1,71 @@
-import React, { useState } from "react";
+import React, { useState } from 'react'
 
-function App() {
+import "./App.css"
+
+const App = () => {
+
+  const[todo, setTodo] = useState("");
+  const[todos, setTodos] = useState([]);
+  const[editId, setEditId] = useState(0);
   
-    const [list, setList] = useState([]);
-    const [input, setInput] = useState("");
+  const handleSubmit = (e) => {
+    
+    e.preventDefault();
 
-    const addTodo = (todo) => {
-      const newTodo = {
-        id: Math.random(),
-        todo: todo,};
+    if (editId) {
+      const editTodo = todos.find((i) => i.id === editId);
+      const updatedTodos = todos.map((t)=>
+        t.id === editTodo.id  
+        ? (t = { id: t.id, todo })
+        : { id: t.id, todo: t.todo} );
 
-      setList([...list, newTodo]);
-      setInput("");
-    };
+        setTodos(updatedTodos);
+        setEditId(0);
+        setTodo("");
+        return;
+    }
+    if (todo !== "") {
+      setTodos([{id: `${todo} - ${Date.now()}` , todo }, ...todos]) //date.now will produces unique number by give current time in millisecond
+      setTodo("");
+    }
+  };
 
-    const deleteTodo = (id) => {
-      //filter todo with the id
-      const newList = list.filter((todo) => todo.id !== id); 
-      setList(newList);
-    };
+  const handleDelete = (id) => {
+    const delTodo = todos.filter((to) => to.id !== id);
+    setTodos ([...delTodo]);
+  };
 
-return(
-    <div>
-      <h1>Todo List</h1>
-      <input 
-      type= "text"
-      value={input}
-      onChange={(e) => setInput(e.target.value)} /> 
+  const handleEdit = (id) => {
+    const editTodo = todos.find((i) => i.id === id);
+    setTodo(editTodo.todo);
+    setEditId(id);
+  }
 
-    <button onClick = {() => addTodo(input)}>Add</button>
-    <ul>
-      {list.map((todo) => (
-      <li key={todo.id}>
-        {todo.todo}
-        <button onClick= {() => deleteTodo(todo.id)}>&times;</button> 
-      </li>
-      ))}
-    </ul>
+  return ( 
+  <div className = "App">  
+  <div className= "container">
+     <h1>My Todo List App</h1>
+     <form className= "todoForm" onSubmit={handleSubmit}>
+       <input type= "text" value={todo} onChange={(e) => setTodo(e.target.value)}/>
+       
+       <button type= "submit"> {editId?"Edit" : "Add"}</button>
+     </form>
+
+     <ul className= "allToDo"> 
+      {
+        todos.map((t) => (
+        <li className = "singleToDo"> 
+        <span className= "toDoText" key={t.id}>{t.todo} </span>
+        <button onClick={() => handleEdit(t.id)}> Edit</button>
+        <button onClick={() => handleDelete(t.id)}> Delete</button>
+        </li>
+        ))
+      }
+     </ul>
+     
+  </div>
     </div>
-    );
+  );
   
 }
 
